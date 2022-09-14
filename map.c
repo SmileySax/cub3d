@@ -32,7 +32,7 @@ int	get_b(int trgb)
 int	ft_keydealer(int key, t_data *map)
 {
 	(void)map;
-	printf("%d \n",key);
+	//printf("%d \n",key);
 	if (key == 53)
 		exit(0);
 	else if (key == 126)
@@ -47,17 +47,17 @@ int	ft_keydealer(int key, t_data *map)
 	{
 		// printf("left arrow\n");
 		map->fPlayerA -= 0.1f;
-		if (map->fPlayerA < 0)
-			map->fPlayerA += 2 * (float)PI;
-		printf ("angle %f\n", map->fPlayerA);
+		if (map->fPlayerA <= 0.0f)
+			map->fPlayerA += 2 * PI;
+		//printf ("angle %f\n", map->fPlayerA);
 	}
 	else if (key == 124)
 	{
 		// printf("right arrow\n");
 		map->fPlayerA += 0.1f;
-		if (map->fPlayerA > 2.0f * (float)PI)
-			map->fPlayerA -= 2.0f * (float)PI;
-		printf ("angle %f\n", map->fPlayerA);
+		if (map->fPlayerA > 2 * PI)
+			map->fPlayerA -= 2 * PI;
+		//printf ("angle %f\n", map->fPlayerA);
 
 	}
 	else if (key == 13)
@@ -65,7 +65,7 @@ int	ft_keydealer(int key, t_data *map)
 		// printf("front (w)\n");
 		map->fPlayerX += cos(map->fPlayerA) * 0.05;
 		map->fPlayerY += sin(map->fPlayerA) * 0.05;
-		printf ("pos %f %f\n", map->fPlayerX, map->fPlayerY);
+		//printf ("pos %f %f\n", map->fPlayerX, map->fPlayerY);
 	}
 	else if (key == 1)
 	{
@@ -158,30 +158,30 @@ t_fpoint	ft_fpincr(t_fpoint p, t_fpoint dp)
 
 t_fpoint	ft_pdelta(t_point p1, t_point p2)
 {
-	t_fpoint	dp;
+	t_fpoint	dfp;
 	int			max;
 	int			c[4];
 
-	dp.x = (float)(p2.x - p1.x);
-	dp.y = (float)(p2.y - p1.y);
+	dfp.x = (float)(p2.x - p1.x);
+	dfp.y = (float)(p2.y - p1.y);
 	c[0] = get_t(p2.c) - get_t(p1.c);
 	c[1] = get_r(p2.c) - get_r(p1.c);
 	c[2] = get_g(p2.c) - get_g(p1.c);
 	c[3] = get_b(p2.c) - get_b(p1.c);
-	max = (int)fmaxf(fabsf(dp.x), fabsf(dp.y));
+	max = (int)fmaxf(fabsf(dfp.x), fabsf(dfp.y));
 	if (max)
 	{
-		dp.x /= max;
-		dp.y /= max;
+		dfp.x /= max;
+		dfp.y /= max;
 		c[0] /= max;
 		c[1] /= max;
 		c[2] /= max;
 		c[3] /= max;
-		dp.c = create_trgb(c[0], c[1], c[2], c[3]);
+		dfp.c = create_trgb(c[0], c[1], c[2], c[3]);
 	}
 	else
-		return (ft_nullify_fpoint(dp));
-	return (dp);
+		return (ft_nullify_fpoint(dfp));
+	return (dfp);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -199,7 +199,7 @@ void	my_mlx_line_put(t_data *map, t_point p1, t_point p2)
 
 	p = ft_init_fpoint((float)p1.x, (float)p1.y, p1.c);
 	dp = ft_pdelta(p1, p2);
-	while (((int)p.x - p2.x) || ((int)p.y - p2.y))
+	while (((int)(p.x - p2.x)) || ((int)(p.y - p2.y)))
 	{
 		if (p.x >= 0 && p.y >= 0 && p.x < WIN_W && p.y < WIN_H)
 			my_mlx_pixel_put(map, (int)p.x, (int)p.y, p.c);
@@ -300,7 +300,6 @@ void	my_player_put(t_data *map)
 	}
 }
 
-
 void	ft_map(char *map)
 {
 	int i = 0;
@@ -324,9 +323,29 @@ void	ft_map(char *map)
 	}
 }
 
+void	my_clear_img(t_data *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < WIN_W)
+	{
+		j = 0;
+		while (j < WIN_H)
+		{
+			my_mlx_pixel_put(map, i, j, BG_COLOR);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	ft_draw(t_data *img)
 {
+	my_clear_img(img);
 	my_map_put(img);
+	my_rays_put(img);
 	my_player_put(img);
 	mlx_put_image_to_window(img->mlx_ptr, img->win_ptr, img->img, 0, 0);
 }

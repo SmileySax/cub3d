@@ -1,4 +1,4 @@
-SRC = 	map.c
+SRC = 	map.c rays.c
 #
 OBJ = $(SRC:.c=.o)
 #
