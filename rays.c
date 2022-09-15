@@ -157,8 +157,8 @@ void	my_rays_put(t_data *map)
 		i = 0;
 		while (i < WALL_LINE_WID)
 		{
-			t_point a = ft_init_point(r * WALL_LINE_WID + i + MAP_SIZE * map->w, (int)fLineO, col);
-			t_point b = ft_init_point(r * WALL_LINE_WID + i + MAP_SIZE * map->w, (int)(fLineH + fLineO), col);
+			t_point a = ft_init_point(r * WALL_LINE_WID + i, (int)fLineO, col);
+			t_point b = ft_init_point(r * WALL_LINE_WID + i, (int)(fLineH + fLineO), col);
 			my_mlx_line_put(map, a, b);
 			i++;
 		}

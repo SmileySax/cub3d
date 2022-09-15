@@ -29,66 +29,195 @@ int	get_b(int trgb)
 	return (trgb & 0xFF);
 }
 
-int	ft_keydealer(int key, t_data *map)
+int	ft_keydown(int key, t_data *map)
 {
-	(void)map;
-	//printf("%d \n",key);
-	if (key == 53)
+	if (key == 123)
+		map->key.la = 1;
+	else if (key == 124)
+		map->key.ra = 1;
+	else if (key == 13)
+		map->key.w = 1;
+	else if (key == 1)
+		map->key.s = 1;
+	else if (key == 0)
+		map->key.a = 1;
+	else if (key == 2)
+		map->key.d = 1;
+	else if (key == 53)
 		exit(0);
-	else if (key == 126)
-	{
-		printf("up arrow\n");
-	}
-	else if (key == 125)
-	{
-		printf("down arrow\n");
-	}
-	else if (key == 123)
+	return (0);
+}
+
+int	ft_keyup(int key, t_data *map)
+{
+	if (key == 123)
+		map->key.la = 0;
+	else if (key == 124)
+		map->key.ra = 0;
+	else if (key == 13)
+		map->key.w = 0;
+	else if (key == 1)
+		map->key.s = 0;
+	else if (key == 0)
+		map->key.a = 0;
+	else if (key == 2)
+		map->key.d = 0;
+	return (0);
+}
+
+int	ft_keydealer(t_data *map)
+{
+	//printf("%d \n",key);
+	if (map->key.la == 1)
 	{
 		// printf("left arrow\n");
-		map->fPlayerA -= 0.1f;
+		map->fPlayerA -= 0.05f;
 		if (map->fPlayerA <= 0.0f)
 			map->fPlayerA += 2 * PI;
 		//printf ("angle %f\n", map->fPlayerA);
 	}
-	else if (key == 124)
+	if (map->key.ra == 1)
 	{
 		// printf("right arrow\n");
-		map->fPlayerA += 0.1f;
+		map->fPlayerA += 0.05f;
 		if (map->fPlayerA > 2 * PI)
 			map->fPlayerA -= 2 * PI;
 		//printf ("angle %f\n", map->fPlayerA);
-
 	}
-	else if (key == 13)
+
+	float	xo, yo;
+	int		ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo;
+
+	if (cos(map->fPlayerA) < 0)
+		xo = -0.2f;
+	else
+		xo = 0.2f;
+	if (sin(map->fPlayerA) < 0)
+		yo = -0.2f;
+	else
+		yo = 0.2f;
+	ipx = (int)map->fPlayerX;
+	ipx_add_xo = (int)(map->fPlayerX + xo);
+	ipx_sub_xo = (int)(map->fPlayerX - xo);
+	ipy = (int)map->fPlayerY;
+	ipy_add_yo = (int)(map->fPlayerY + yo);
+	ipy_sub_yo = (int)(map->fPlayerY - yo);
+	printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
+
+	if (map->key.w == 1)
 	{
 		// printf("front (w)\n");
-		map->fPlayerX += cos(map->fPlayerA) * 0.05;
-		map->fPlayerY += sin(map->fPlayerA) * 0.05;
-		//printf ("pos %f %f\n", map->fPlayerX, map->fPlayerY);
+		if(map->map[ipy * map->w + ipx_add_xo] != '1')
+			map->fPlayerX += cos(map->fPlayerA) * 0.05;
+		if(map->map[ipy_add_yo * map->w + ipx] != '1')
+			map->fPlayerY += sin(map->fPlayerA) * 0.05;
+		// printf ("pos %f %f\n", map->fPlayerX, map->fPlayerY);
 	}
-	else if (key == 1)
+	if (map->key.s == 1)
 	{
 		// printf("rev (s)\n");
-		map->fPlayerX -= cos(map->fPlayerA) * 0.05;
-		map->fPlayerY -= sin(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->w + ipx_sub_xo] != '1')
+			map->fPlayerX -= cos(map->fPlayerA) * 0.05;
+		if(map->map[ipy_sub_yo * map->w + ipx] != '1')
+			map->fPlayerY -= sin(map->fPlayerA) * 0.05;
 	}
-	else if (key == 0)
+
+	if (cos(map->fPlayerA) < 0)
+		yo = -0.2f;
+	else
+		yo = 0.2f;
+	if (sin(map->fPlayerA) < 0)
+		xo = -0.2f;
+	else
+		xo = 0.2f;
+	ipx = (int)map->fPlayerX;
+	ipx_add_xo = (int)(map->fPlayerX + xo);
+	ipx_sub_xo = (int)(map->fPlayerX - xo);
+	ipy = (int)map->fPlayerY;
+	ipy_add_yo = (int)(map->fPlayerY + yo);
+	ipy_sub_yo = (int)(map->fPlayerY - yo);
+	printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
+
+	if (map->key.a == 1)
 	{
 		// printf("left (a)\n");
-		map->fPlayerX += sin(map->fPlayerA) * 0.05;
-		map->fPlayerY -= cos(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->w + ipx_add_xo] != '1')
+			map->fPlayerX += sin(map->fPlayerA) * 0.05;
+		if(map->map[ipy_sub_yo * map->w + ipx] != '1')
+			map->fPlayerY -= cos(map->fPlayerA) * 0.05;
 	}
-	if (key == 2)
+	if (map->key.d == 1)
 	{
 		// printf("right (d)\n");
-		map->fPlayerX -= sin(map->fPlayerA) * 0.05;
-		map->fPlayerY += cos(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->w + ipx_sub_xo] != '1')
+			map->fPlayerX -= sin(map->fPlayerA) * 0.05;
+		if(map->map[ipy_add_yo * map->w + ipx] != '1')
+			map->fPlayerY += cos(map->fPlayerA) * 0.05;
 	}
 	mlx_clear_window(map->mlx_ptr, map->win_ptr);
 	ft_draw(map);
 	return (0);
 }
+
+// int	ft_keydealer(int key, t_data *map)
+// {
+// 	(void)map;
+// 	//printf("%d \n",key);
+// 	if (key == 53)
+// 		exit(0);
+// 	else if (key == 126)
+// 	{
+// 		printf("up arrow\n");
+// 	}
+// 	else if (key == 125)
+// 	{
+// 		printf("down arrow\n");
+// 	}
+// 	else if (key == 123)
+// 	{
+// 		// printf("left arrow\n");
+// 		map->fPlayerA -= 0.1f;
+// 		if (map->fPlayerA <= 0.0f)
+// 			map->fPlayerA += 2 * PI;
+// 		//printf ("angle %f\n", map->fPlayerA);
+// 	}
+// 	else if (key == 124)
+// 	{
+// 		// printf("right arrow\n");
+// 		map->fPlayerA += 0.1f;
+// 		if (map->fPlayerA > 2 * PI)
+// 			map->fPlayerA -= 2 * PI;
+// 		//printf ("angle %f\n", map->fPlayerA);
+// 	}
+// 	else if (key == 13)
+// 	{
+// 		// printf("front (w)\n");
+// 		map->fPlayerX += cos(map->fPlayerA) * 0.05;
+// 		map->fPlayerY += sin(map->fPlayerA) * 0.05;
+// 		//printf ("pos %f %f\n", map->fPlayerX, map->fPlayerY);
+// 	}
+// 	else if (key == 1)
+// 	{
+// 		// printf("rev (s)\n");
+// 		map->fPlayerX -= cos(map->fPlayerA) * 0.05;
+// 		map->fPlayerY -= sin(map->fPlayerA) * 0.05;
+// 	}
+// 	else if (key == 0)
+// 	{
+// 		// printf("left (a)\n");
+// 		map->fPlayerX += sin(map->fPlayerA) * 0.05;
+// 		map->fPlayerY -= cos(map->fPlayerA) * 0.05;
+// 	}
+// 	if (key == 2)
+// 	{
+// 		// printf("right (d)\n");
+// 		map->fPlayerX -= sin(map->fPlayerA) * 0.05;
+// 		map->fPlayerY += cos(map->fPlayerA) * 0.05;
+// 	}
+// 	mlx_clear_window(map->mlx_ptr, map->win_ptr);
+// 	ft_draw(map);
+// 	return (0);
+// }
 
 // int	ft_exit_x_button(t_map *map)
 // {
@@ -344,10 +473,17 @@ void	my_clear_img(t_data *map)
 void	ft_draw(t_data *img)
 {
 	my_clear_img(img);
-	my_map_put(img);
 	my_rays_put(img);
+	my_map_put(img);
 	my_player_put(img);
 	mlx_put_image_to_window(img->mlx_ptr, img->win_ptr, img->img, 0, 0);
+}
+
+int	handle_no_event(void *map)
+{
+	/* This function needs to exist, but it is useless for the moment */
+	ft_keydealer(map);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -364,6 +500,12 @@ int	main(int ac, char **av)
 	map.map = m;
 	map.h = 6;
 	map.w = 6;
+	map.key.la = 0;
+	map.key.ra = 0;
+	map.key.w = 0;
+	map.key.s = 0;
+	map.key.a = 0;
+	map.key.d = 0;
 	if (ac > 3)
 		printf("%s", av[2]);
 	ft_map(m);
@@ -375,7 +517,9 @@ int	main(int ac, char **av)
 	if(!ft_find_player(&map))
 		printf("no player on map!");
 	ft_draw(&map);
-	mlx_hook(map.win_ptr, 2, 0, ft_keydealer, (void *)&map);
+	mlx_loop_hook(map.mlx_ptr, &handle_no_event, (void *)&map);
+	mlx_hook(map.win_ptr, 2, 1L<<0, &ft_keydown, (void *)&map);
+	mlx_hook(map.win_ptr, 3, 1L<<1, &ft_keyup, (void *)&map);
 	// mlx_hook(mlx_win, 17, 0, ft_exit_x_button, map);
 	mlx_loop(map.mlx_ptr);
 	return 0;

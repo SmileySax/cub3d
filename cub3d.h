@@ -11,6 +11,10 @@
 #define WIN_W 1000
 #define WIN_H 800
 
+#define VIEW_ANGLE 60
+#define RESOLUTION 10
+#define WALL_LINE_WID 20/RESOLUTION
+
 #define MAP_SIZE 25
 #define PLAYER_COLOR 0x0000FF00
 #define RAY_COLOR1 0x0066FF66
@@ -25,9 +29,6 @@
 #define PI2 PI/2
 #define PI3 3*PI/2
 #define DEG 0.0174533
-#define VIEW_ANGLE 60
-#define RESOLUTION 6
-#define WALL_LINE_WID 12/RESOLUTION
 
 
 typedef struct s_point
@@ -44,6 +45,16 @@ typedef struct s_fpoint
 	int		c;
 }	t_fpoint;
 
+typedef struct s_keys
+{
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	la;
+	int	ra;
+}	t_keys;
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -58,6 +69,7 @@ typedef struct	s_data {
 	float	fPlayerA;
 	int		h;
 	int		w;
+	t_keys	key;
 }				t_data;
 
 void	ft_draw(t_data *img);
