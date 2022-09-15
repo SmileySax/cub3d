@@ -102,7 +102,7 @@ int	ft_keydealer(t_data *map)
 	ipy = (int)map->fPlayerY;
 	ipy_add_yo = (int)(map->fPlayerY + yo);
 	ipy_sub_yo = (int)(map->fPlayerY - yo);
-	printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
+	// printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
 
 	if (map->key.w == 1)
 	{
@@ -136,7 +136,7 @@ int	ft_keydealer(t_data *map)
 	ipy = (int)map->fPlayerY;
 	ipy_add_yo = (int)(map->fPlayerY + yo);
 	ipy_sub_yo = (int)(map->fPlayerY - yo);
-	printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
+	// printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
 
 	if (map->key.a == 1)
 	{
