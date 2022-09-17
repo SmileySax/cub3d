@@ -248,7 +248,7 @@ t_fpoint	ft_init_fpoint(float x, float y, int c)
 t_point	ft_nullify_point(t_point p)
 {
 	p = ft_init_point(0, 0, create_trgb(0, 0, 0, 0));
-	return p;
+	return (p);
 }
 
 t_fpoint	ft_nullify_fpoint(t_fpoint p)
@@ -518,8 +518,8 @@ int	main(int ac, char **av)
 		printf("no player on map!");
 	ft_draw(&map);
 	mlx_loop_hook(map.mlx_ptr, &handle_no_event, (void *)&map);
-	mlx_hook(map.win_ptr, 2, 1L<<0, &ft_keydown, (void *)&map);
-	mlx_hook(map.win_ptr, 3, 1L<<1, &ft_keyup, (void *)&map);
+	mlx_hook(map.win_ptr, 2, 1L << 0, &ft_keydown, (void *)&map);
+	mlx_hook(map.win_ptr, 3, 1L << 1, &ft_keyup, (void *)&map);
 	// mlx_hook(mlx_win, 17, 0, ft_exit_x_button, map);
 	mlx_loop(map.mlx_ptr);
 	return 0;

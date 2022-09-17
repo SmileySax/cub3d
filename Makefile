@@ -8,17 +8,20 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 #
 CC_FLAGS = -Wall -Werror -Wextra
 #
-MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
+LIB = ./libmlx/libmlx.a
+MLX_FLAGS = -framework OpenGL -framework AppKit
 MATH_FLAGS = -lm
 #
-NAME = cub3ds
+NAME = cub3D
 #
 all: $(NAME)
 #
-$(NAME): $(OBJ)
-	@$(CC) $(CC_FLAGS) $(MATH_FLAGS) $(MLX_FLAGS) $(OBJ) -o $@
-	@echo "\033[32m\033[40m\033[1m[fdf compiled]"
+$(NAME): $(OBJ) Makefile
+	@make -C ./libmlx
+	@$(CC) $(CC_FLAGS) $(MATH_FLAGS) $(MLX_FLAGS) $(OBJ) $(LIB) -o $@
+	@echo "\033[32m\033[40m\033[1m[cub3D compiled]"
 #
+
 %.o: %.c
 	@$(CC) $(CC_FLAGS) -c $<
 #
