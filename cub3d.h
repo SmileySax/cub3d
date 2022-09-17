@@ -8,12 +8,13 @@
 # include <fcntl.h>
 # include "mlx/mlx.h"
 
-#define WIN_W 1000
+#define WIN_W 1200
 #define WIN_H 800
 
 #define VIEW_ANGLE 60
-#define RESOLUTION 10
-#define WALL_LINE_WID 20/RESOLUTION
+#define RESOLUTION 6
+#define WALL_LINE_WID 12/RESOLUTION
+//number in WALL_LINE_WID has to be devidable by RESOLUTION
 
 #define MAP_SIZE 25
 #define PLAYER_COLOR 0x0000FF00
