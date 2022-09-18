@@ -1,94 +1,99 @@
 #include "cub3d.h"
 
-void	load_img(t_cub *cub, int *texture, char *path, t_img *img)
+void	load_img(t_data *map, int *texture, char *path)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	img->img = mlx_xpm_file_to_image(cub->mlx, path, &img->w, &img->h);
-	img->data = (int *)mlx_get_data_addr(img->img, \
-		&img->bpp, &img->size, &img->endian);
-	while (y < img->h)
+	map->img.img = mlx_xpm_file_to_image(map->mlx_ptr, path,
+			&map->img.w, &map->img.h);
+	map->img.data = (int *)mlx_get_data_addr(map->img.img, \
+		&map->img.bits_per_pixel, &map->img.size, &map->img->endian);
+	while (y < map->img.h)
 	{
 		x = 0;
-		while (x < img->w)
+		while (x < map->img.w)
 		{
-			texture[img->w * y + x] = img->data[img->w * y + x];
+			texture[map->img.w * y + x] = map->img.data[map->img.w * y + x];
 			x++;
 		}
 		y++;
 	}
-	mlx_destroy_image(cub->mlx, img->img);
+	mlx_destroy_image(map->mlx_ptr, map->img.img);
 }
 
-void	load_texture(t_cub *cub)
+void	load_texture(t_data *map)
 {
-	t_img	img;
-
-	load_img(cub, cub->texture[0], cub->textur.north, &img);
-	load_img(cub, cub->texture[1], cub->textur.south, &img);
-	load_img(cub, cub->texture[2], cub->textur.west, &img);
-	load_img(cub, cub->texture[3], cub->textur.east, &img);
+//	load_img(map, map->texture.texture[0], map->texture.north);
+//	load_img(map, map->texture.texture[1], map->texture.south);
+//	load_img(map, map->texture.texture[2], map->texture.west);
+//	load_img(map, map->texture.texture[3], map->texture.east);
+	load_img(map, map->texture.texture[0], "./texture/NO2");
+	load_img(map, map->texture.texture[1], "./texture/SO2");
+	load_img(map, map->texture.texture[2], "./texture/WE2");
+	load_img(map, map->texture.texture[3], "./texture/EA2");
 }
 
-void	image_draw(t_cub *cub)
+void	image_draw(t_data *map) // ВОПРОС?????
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	while (y < SHEIGHT)
+	while (y < WIN_H)
 	{
 		x = 0;
-		while (x < SWIGHT)
+		while (x < WIN_W)
 		{
-			cub->img.data[y * SWIGHT + x] = cub->buf[y][x];
+			map->img.data[y * WIN_W + x] = map->buf[y][x];
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img.img, 0, 0);
+	mlx_put_image_to_window(map->mlx_ptr, map->win_ptr, map->img.img, 0, 0);
 }
 
-void	potolok(t_cub *cub)
+void	ceiling_floor(t_data *map)
 {
 	int	x;
 	int	y;
-	int	color;
-	int	color2;
+	int	color_c;
+	int	color_f;
 
 	x = 0;
-	color = ft_hex(cub->textur.color_ceiling[0], \
-		cub->textur.color_ceiling[1], cub->textur.color_ceiling[2]);
-	color2 = ft_hex(cub->textur.color_floor[0], \
-		cub->textur.color_floor[2], cub->textur.color_floor[2]);
-	while (x < SWIGHT)
+	color_c = create_trgb(map->texture.ceiling[0],
+			map->texture.ceiling[1], map->texture.ceiling[2],
+			map->texture.ceiling[3]);
+	color_f = create_trgb(map->texture.floor[0],
+			map->texture.floor[1], map->texture.floor[2],
+			map->texture.floor[3]);
+	while (x < WIN_W)
 	{
 		y = 0;
-		while (y < SHEIGHT)
+		while (y < WIN_H)
 		{
-			cub->buf[y][x] = color;
-			cub->buf[SHEIGHT - y - 1][x] = color2;
+			map->buf[y][x] = color_c;
+			map->buf[WIN_H - y - 1][x] = color_f;
 			y++;
 		}
 		x++;
 	}
 }
 
-int	init_texture(t_cub *cub)
+int	init_texture(t_data *map)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	cub->texture = (int **)malloc(sizeof(int *) * 4);
-	if (cub->texture == NULL)
+	map->texture.texture = (int **)malloc(sizeof(int *) * 4);
+	if (map->texture.texture == NULL)
 		return (-1);
 	while (i < 4)
 	{
-		cub->texture[i] = (int *)malloc(sizeof(int) * (TEXH * TEXW));
-		if (cub->texture[i] == NULL)
+		map->texture.texture[i] = (int *)malloc(sizeof(int) * (TEX_H * TEX_W));
+		if (map->texture.texture[i] == NULL)
 			return (-1);
 		i++;
 	}
@@ -96,8 +101,8 @@ int	init_texture(t_cub *cub)
 	while (i < 4)
 	{
 		j = 0;
-		while (j < TEXH * TEXW)
-			cub->texture[i][j++] = 0;
+		while (j < TEX_H * TEX_W)
+			map->texture.texture[i][j++] = 0;
 		i++;
 	}
 	return (0);
