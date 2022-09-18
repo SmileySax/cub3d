@@ -29,7 +29,7 @@ int	get_b(int trgb)
 	return (trgb & 0xFF);
 }
 
-int	ft_keydown(int key, t_data *map)
+int	keydown(int key, t_data *map)
 {
 	if (key == 123)
 		map->key.la = 1;
@@ -48,7 +48,7 @@ int	ft_keydown(int key, t_data *map)
 	return (0);
 }
 
-int	ft_keyup(int key, t_data *map)
+int	keyup(int key, t_data *map)
 {
 	if (key == 123)
 		map->key.la = 0;
@@ -65,97 +65,97 @@ int	ft_keyup(int key, t_data *map)
 	return (0);
 }
 
-int	ft_keydealer(t_data *map)
+int	keydealer(t_data *map)
 {
 	//printf("%d \n",key);
 	if (map->key.la == 1)
 	{
 		// printf("left arrow\n");
-		map->fPlayerA -= 0.05f;
-		if (map->fPlayerA <= 0.0f)
-			map->fPlayerA += 2 * PI;
+		map->fpa -= 0.05f;
+		if (map->fpa <= 0.0f)
+			map->fpa += 2 * PI;
 		//printf ("angle %f\n", map->fPlayerA);
 	}
 	if (map->key.ra == 1)
 	{
 		// printf("right arrow\n");
-		map->fPlayerA += 0.05f;
-		if (map->fPlayerA > 2 * PI)
-			map->fPlayerA -= 2 * PI;
+		map->fpa += 0.05f;
+		if (map->fpa > 2 * PI)
+			map->fpa -= 2 * PI;
 		//printf ("angle %f\n", map->fPlayerA);
 	}
 
 	float	xo, yo;
 	int		ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo;
 
-	if (cos(map->fPlayerA) < 0)
+	if (cos(map->fpa) < 0)
 		xo = -0.2f;
 	else
 		xo = 0.2f;
-	if (sin(map->fPlayerA) < 0)
+	if (sin(map->fpa) < 0)
 		yo = -0.2f;
 	else
 		yo = 0.2f;
-	ipx = (int)map->fPlayerX;
-	ipx_add_xo = (int)(map->fPlayerX + xo);
-	ipx_sub_xo = (int)(map->fPlayerX - xo);
-	ipy = (int)map->fPlayerY;
-	ipy_add_yo = (int)(map->fPlayerY + yo);
-	ipy_sub_yo = (int)(map->fPlayerY - yo);
+	ipx = (int)map->fpx;
+	ipx_add_xo = (int)(map->fpx + xo);
+	ipx_sub_xo = (int)(map->fpx - xo);
+	ipy = (int)map->fpy;
+	ipy_add_yo = (int)(map->fpy + yo);
+	ipy_sub_yo = (int)(map->fpy - yo);
 	// printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
 
 	if (map->key.w == 1)
 	{
 		// printf("front (w)\n");
-		if(map->map[ipy * map->w + ipx_add_xo] != '1')
-			map->fPlayerX += cos(map->fPlayerA) * 0.05;
-		if(map->map[ipy_add_yo * map->w + ipx] != '1')
-			map->fPlayerY += sin(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->img.w + ipx_add_xo] != '1')
+			map->fpx += cos(map->fpa) * 0.05;
+		if(map->map[ipy_add_yo * map->img.w + ipx] != '1')
+			map->fpy += sin(map->fpa) * 0.05;
 		// printf ("pos %f %f\n", map->fPlayerX, map->fPlayerY);
 	}
 	if (map->key.s == 1)
 	{
 		// printf("rev (s)\n");
-		if(map->map[ipy * map->w + ipx_sub_xo] != '1')
-			map->fPlayerX -= cos(map->fPlayerA) * 0.05;
-		if(map->map[ipy_sub_yo * map->w + ipx] != '1')
-			map->fPlayerY -= sin(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->img.w + ipx_sub_xo] != '1')
+			map->fpx -= cos(map->fpa) * 0.05;
+		if(map->map[ipy_sub_yo * map->img.w + ipx] != '1')
+			map->fpy -= sin(map->fpa) * 0.05;
 	}
 
-	if (cos(map->fPlayerA) < 0)
+	if (cos(map->fpa) < 0)
 		yo = -0.2f;
 	else
 		yo = 0.2f;
-	if (sin(map->fPlayerA) < 0)
+	if (sin(map->fpa) < 0)
 		xo = -0.2f;
 	else
 		xo = 0.2f;
-	ipx = (int)map->fPlayerX;
-	ipx_add_xo = (int)(map->fPlayerX + xo);
-	ipx_sub_xo = (int)(map->fPlayerX - xo);
-	ipy = (int)map->fPlayerY;
-	ipy_add_yo = (int)(map->fPlayerY + yo);
-	ipy_sub_yo = (int)(map->fPlayerY - yo);
+	ipx = (int)map->fpx;
+	ipx_add_xo = (int)(map->fpx + xo);
+	ipx_sub_xo = (int)(map->fpx - xo);
+	ipy = (int)map->fpy;
+	ipy_add_yo = (int)(map->fpy + yo);
+	ipy_sub_yo = (int)(map->fpy - yo);
 	// printf("x %d+%d-%d | y %d+%d-%d | p %d-%c\n", ipx, ipx_add_xo, ipx_sub_xo, ipy, ipy_add_yo, ipy_sub_yo, ipy * map->w + ipx_add_xo, map->map[ipy * map->w + ipx_add_xo]);
 
 	if (map->key.a == 1)
 	{
 		// printf("left (a)\n");
-		if(map->map[ipy * map->w + ipx_add_xo] != '1')
-			map->fPlayerX += sin(map->fPlayerA) * 0.05;
-		if(map->map[ipy_sub_yo * map->w + ipx] != '1')
-			map->fPlayerY -= cos(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->img.w + ipx_add_xo] != '1')
+			map->fpx += sin(map->fpa) * 0.05;
+		if(map->map[ipy_sub_yo * map->img.w + ipx] != '1')
+			map->fpy -= cos(map->fpa) * 0.05;
 	}
 	if (map->key.d == 1)
 	{
 		// printf("right (d)\n");
-		if(map->map[ipy * map->w + ipx_sub_xo] != '1')
-			map->fPlayerX -= sin(map->fPlayerA) * 0.05;
-		if(map->map[ipy_add_yo * map->w + ipx] != '1')
-			map->fPlayerY += cos(map->fPlayerA) * 0.05;
+		if(map->map[ipy * map->img.w + ipx_sub_xo] != '1')
+			map->fpx -= sin(map->fpa) * 0.05;
+		if(map->map[ipy_add_yo * map->img.w + ipx] != '1')
+			map->fpy += cos(map->fpa) * 0.05;
 	}
 	mlx_clear_window(map->mlx_ptr, map->win_ptr);
-	ft_draw(map);
+	draw(map);
 	return (0);
 }
 
@@ -225,7 +225,7 @@ int	ft_keydealer(t_data *map)
 // 	exit(1);
 // }
 
-t_point	ft_init_point(int x, int y, int c)
+t_point	init_point(int x, int y, int c)
 {
 	t_point	p;
 
@@ -235,7 +235,7 @@ t_point	ft_init_point(int x, int y, int c)
 	return (p);
 }
 
-t_fpoint	ft_init_fpoint(float x, float y, int c)
+t_fpoint	init_fpoint(float x, float y, int c)
 {
 	t_fpoint	p;
 
@@ -245,15 +245,15 @@ t_fpoint	ft_init_fpoint(float x, float y, int c)
 	return (p);
 }
 
-t_point	ft_nullify_point(t_point p)
+t_point	nullify_point(t_point p)
 {
-	p = ft_init_point(0, 0, create_trgb(0, 0, 0, 0));
-	return p;
+	p = init_point(0, 0, create_trgb(0, 0, 0, 0));
+	return (p);
 }
 
-t_fpoint	ft_nullify_fpoint(t_fpoint p)
+t_fpoint	nullify_fpoint(t_fpoint p)
 {
-	p = ft_init_fpoint(0, 0, create_trgb(0, 0, 0, 0));
+	p = init_fpoint(0, 0, create_trgb(0, 0, 0, 0));
 	return p;
 }
 
@@ -264,7 +264,7 @@ t_fpoint	ft_nullify_fpoint(t_fpoint p)
 // 	return (p);
 // }
 
-t_fpoint	ft_fpincr(t_fpoint p, t_fpoint dp)
+t_fpoint	fpincr(t_fpoint p, t_fpoint dp)
 {
 	int			c[4];
 
@@ -285,7 +285,7 @@ t_fpoint	ft_fpincr(t_fpoint p, t_fpoint dp)
 	return (p);
 }
 
-t_fpoint	ft_pdelta(t_point p1, t_point p2)
+t_fpoint	pdelta(t_point p1, t_point p2)
 {
 	t_fpoint	dfp;
 	int			max;
@@ -309,7 +309,7 @@ t_fpoint	ft_pdelta(t_point p1, t_point p2)
 		dfp.c = create_trgb(c[0], c[1], c[2], c[3]);
 	}
 	else
-		return (ft_nullify_fpoint(dfp));
+		return (nullify_fpoint(dfp));
 	return (dfp);
 }
 
@@ -317,7 +317,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	dst = data->addr + (y * data->line_length + x * (data->img.bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
 
@@ -326,13 +326,13 @@ void	my_mlx_line_put(t_data *map, t_point p1, t_point p2)
 	t_fpoint	dp;
 	t_fpoint	p;
 
-	p = ft_init_fpoint((float)p1.x, (float)p1.y, p1.c);
-	dp = ft_pdelta(p1, p2);
+	p = init_fpoint((float)p1.x, (float)p1.y, p1.c);
+	dp = pdelta(p1, p2);
 	while (((int)(p.x - p2.x)) || ((int)(p.y - p2.y)))
 	{
 		if (p.x >= 0 && p.y >= 0 && p.x < WIN_W && p.y < WIN_H)
 			my_mlx_pixel_put(map, (int)p.x, (int)p.y, p.c);
-		p = ft_fpincr(p, dp);
+		p = fpincr(p, dp);
 	}
 }
 
@@ -345,18 +345,18 @@ void	my_map_put(t_data *map)
 
 	y = 0;
 	x = 0;
-	while (y < map->h)
+	while (y < map->img.h)
 	{
-		while (x < map->w)
+		while (x < map->img.w)
 		{
-			if (map->map[y * map->w + x] == '1')
+			if (map->map[y * map->img.w + x] == '1')
 				c = WALL_COLOR;
 			else
 				c = BG_COLOR;
-			p[0] = ft_init_point(x * MAP_SIZE, y * MAP_SIZE, c);
-			p[1] = ft_init_point(x * MAP_SIZE, (y + 1) * MAP_SIZE - 1, c);
-//			p[3] = ft_init_point((x + 1) * MAP_SIZE - 1, (y + 1) * MAP_SIZE - 1, c);
-			p[2] = ft_init_point((x + 1) * MAP_SIZE - 1, y * MAP_SIZE, c);
+			p[0] = init_point(x * MAP_SIZE, y * MAP_SIZE, c);
+			p[1] = init_point(x * MAP_SIZE, (y + 1) * MAP_SIZE - 1, c);
+//			p[3] = init_point((x + 1) * MAP_SIZE - 1, (y + 1) * MAP_SIZE - 1, c);
+			p[2] = init_point((x + 1) * MAP_SIZE - 1, y * MAP_SIZE, c);
 			while (p[0].x != p[2].x)
 			{
 				my_mlx_line_put(map, p[0], p[1]);
@@ -370,7 +370,7 @@ void	my_map_put(t_data *map)
 	}
 }
 
-int	ft_find_player(t_data *map)
+int	find_player(t_data *map)
 {
 	int i = 0;
 	int j = 0;
@@ -381,9 +381,9 @@ int	ft_find_player(t_data *map)
 		{
 			if (map->map[i * 6 + j] == 'X')
 			{
-				map->fPlayerX = (float)j + 0.5f;
-				map->fPlayerY = (float)i + 0.5f;
-				map->fPlayerA = 0.0f;
+				map->fpx = (float)j + 0.5f;
+				map->fpy = (float)i + 0.5f;
+				map->fpa = 0.0f;
 				return (1);
 			}
 			j++;
@@ -400,15 +400,15 @@ void	my_player_put(t_data *map)
 	int	j;
 	int	pos[3];
 
-	if (!map->fPlayerX)
+	if (!map->fpx)
 		printf("no player on map!");
 	else
 	{
 		pos[0] = (int)fmaxf(MAP_SIZE/10.0f, 1.0f);
 		i = pos[0];
 		j = i;
-		pos[1] = (int)(map->fPlayerX * (float)MAP_SIZE);
-		pos[2] = (int)(map->fPlayerY * (float)MAP_SIZE);
+		pos[1] = (int)(map->fpx * (float)MAP_SIZE);
+		pos[2] = (int)(map->fpy * (float)MAP_SIZE);
 		while (i >= 0)
 		{
 			while (j >= -pos[0])
@@ -425,11 +425,11 @@ void	my_player_put(t_data *map)
 		}
 		i = 9;
 		while (i++ < 20)
-			my_mlx_pixel_put(map, pos[1] + (i/10.0f) * pos[0] * cos(map->fPlayerA), pos[2] + (i/10.0f) * pos[0] * sin(map->fPlayerA), PLAYER_COLOR);
+			my_mlx_pixel_put(map, pos[1] + (i/10.0f) * pos[0] * cos(map->fpa), pos[2] + (i/10.0f) * pos[0] * sin(map->fpa), PLAYER_COLOR);
 	}
 }
 
-void	ft_map(char *map)
+void	f_map(char *map)
 {
 	int i = 0;
 	int j = 0;
@@ -470,25 +470,25 @@ void	my_clear_img(t_data *map)
 	}
 }
 
-void	ft_draw(t_data *img)
+void	draw(t_data *map)
 {
-	my_clear_img(img);
-	my_rays_put(img);
-	my_map_put(img);
-	my_player_put(img);
-	mlx_put_image_to_window(img->mlx_ptr, img->win_ptr, img->img, 0, 0);
+	my_clear_img(map);
+	my_rays_put(map);
+	my_map_put(map);
+	my_player_put(map);
+	mlx_put_image_to_window(map->mlx_ptr, map->win_ptr, map->img.img, 0, 0);
 }
 
 int	handle_no_event(void *map)
 {
 	/* This function needs to exist, but it is useless for the moment */
-	ft_keydealer(map);
+	keydealer(map);
 	return (0);
 }
 
 int	main(int ac, char **av)
 {
-	char	*m=  "111111101001101011100001100X01111111";
+	char	*m = "111111101001101011100001100X01111111";
 	// 			(1, 1, 1, 1, 1, 1,
 	// 			1, 0, 1, 0, 0, 1,
 	// 			1, 0, 1, 0, 1, 1,
@@ -498,8 +498,8 @@ int	main(int ac, char **av)
 	t_data	map;
 
 	map.map = m;
-	map.h = 6;
-	map.w = 6;
+	map.img.h = 6;
+	map.img.w = 6;
 	map.key.la = 0;
 	map.key.ra = 0;
 	map.key.w = 0;
@@ -508,18 +508,18 @@ int	main(int ac, char **av)
 	map.key.d = 0;
 	if (ac > 3)
 		printf("%s", av[2]);
-	ft_map(m);
+	f_map(m);
 	map.mlx_ptr = mlx_init();
 	map.win_ptr = mlx_new_window(map.mlx_ptr, WIN_W, WIN_H, "cub3d");
-	map.img = mlx_new_image(map.mlx_ptr, WIN_W, WIN_H);
-	map.addr = mlx_get_data_addr(map.img, &map.bits_per_pixel, &map.line_length,
-								&map.endian);
-	if(!ft_find_player(&map))
+	map.img.img = mlx_new_image(map.mlx_ptr, WIN_W, WIN_H);
+	map.addr = mlx_get_data_addr(map.img.img, &map.img.bits_per_pixel, &map.line_length,
+								&map.img.endian);
+	if(!find_player(&map))
 		printf("no player on map!");
-	ft_draw(&map);
+	draw(&map);
 	mlx_loop_hook(map.mlx_ptr, &handle_no_event, (void *)&map);
-	mlx_hook(map.win_ptr, 2, 1L<<0, &ft_keydown, (void *)&map);
-	mlx_hook(map.win_ptr, 3, 1L<<1, &ft_keyup, (void *)&map);
+	mlx_hook(map.win_ptr, 2, 1L << 0, &keydown, (void *)&map);
+	mlx_hook(map.win_ptr, 3, 1L << 1, &keyup, (void *)&map);
 	// mlx_hook(mlx_win, 17, 0, ft_exit_x_button, map);
 	mlx_loop(map.mlx_ptr);
 	return 0;
