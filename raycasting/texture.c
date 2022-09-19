@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	load_img(t_data *map, int *texture, char *path)
 {

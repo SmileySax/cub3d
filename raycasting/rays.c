@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 float distance(t_fpoint p1, t_fpoint p2)
 {

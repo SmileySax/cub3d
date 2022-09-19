@@ -7,6 +7,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include "libmlx/mlx.h"
+# include "./libft/libft.h"
 
 # define WIN_W 1200
 # define WIN_H 800
@@ -102,4 +103,18 @@ t_point		init_point(int x, int y, int c);
 void		my_mlx_line_put(t_data *map, t_point p1, t_point p2);
 void		my_rays_put(t_data *map);
 int			create_trgb(int t, int r, int g, int b);
+
+//Raycasting
+int			find_player(t_data *map);
+void		terminal_map(char *map);
+//Parser
+void		parser(t_data *map, char *file);
+//Utils
+int			keyup(int key, t_data *map);
+int			keydown(int key, t_data *map);
+int			handle_no_event(void *map);
+void		free_matrix(char **str);
+void		print_error(char *s1, char *s2, char *s3, char *s4);
+
+
 #endif

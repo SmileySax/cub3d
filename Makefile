@@ -1,4 +1,9 @@
-SRC = 	map.c rays.c
+HEADER = cub3d.h
+
+SRC = 	main.c \
+		raycasting/map.c raycasting/rays.c \
+		utils/utils.c	\
+#		parser/parcer.c parser/check_map.c parser/read_file.c parser/record_info.c parser/parser_utils.c
 #
 OBJ = $(SRC:.c=.o)
 #
@@ -6,7 +11,7 @@ SRC_BONUS = map.c
 #
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 #
-CC_FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra
 #
 LIBFT	= ./libft/libft.a
 LIBMLX = ./libmlx/libmlx.a
@@ -18,15 +23,15 @@ NAME = cub3D
 #
 all: libft $(NAME)
 #
-$(NAME): $(OBJ) Makefile
+$(NAME): $(OBJ) $(HEADER) Makefile
 	@make -C ./libft
 	@make -C ./libmlx
-	@$(CC) $(CC_FLAGS) $(MATH_FLAGS) $(MLX_FLAGS) $(OBJ) $(LIBFT) $(LIBMLX) -o $@
+	@$(CC) $(FLAGS) $(MATH_FLAGS) $(MLX_FLAGS) $(OBJ) $(LIBFT) $(LIBMLX) -o $@
 	@echo "\033[32m\033[40m\033[1m[cub3D compiled]"
 #
 
 %.o: %.c
-	@$(CC) $(CC_FLAGS) -c $<
+	@$(CC) $(FLAGS) -c $< -o $@
 #
 libmlx :
 	@make -s -C libmlx

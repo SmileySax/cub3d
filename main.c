@@ -1,39 +1,42 @@
-#include <math.h>
-#include "mlx.h"
+#include "cub3d.h"
 
-int	main(void)
+int	main(int ac, char **av)
 {
-	float	fPlayerX;
-	float	fPlayerY;
-	float	fPlayerAngle;
-	int		nMapWid = 6;
-	int		nMapHeigh = 6;
-	int		nScreenWid = 120;
-	float	fFOV;
-	int		x;
-	int		a0[6] = (1, 1, 1, 1, 1, 1);
-	int		a1[6] = (1, 0, 1, 0, 0, 1);
-	int		a2[6] = (1, 0, 1, 0, 1, 1);
-	int		a3[6] = (1, 0, 0, 0, 0, 1);
-	int		a4[6] = (1, 0, 0, 0, 0, 1);
-	int		a5[6] = (1, 1, 1, 1, 1, 1);
-	int		*a[6] = (a0, a1, a2, a3, a4, a5);
-	float	fRayAngle;
-	float	fDistToWall;
+	char	*m = "111111101001101011100001100X01111111";
+	// 			(1, 1, 1, 1, 1, 1,
+	// 			1, 0, 1, 0, 0, 1,
+	// 			1, 0, 1, 0, 1, 1,
+	// 			1, 0, 0, 0, 0, 1,
+	// 			1, 0, 0, X, 0, 1,
+	// 			1, 1, 1, 1, 1, 1);
+	t_data	map;
 
-	fPlayerX = 0.0f;
-	fPlayerY = 0.0f;
-	fPlayerAngle = 0.0f;
-	fFOV = 3.14159 / 4.0f;
-
-	x = 0;
-	while (1)
-	{
-		while (x < nScreenWid)
-		{
-			fRayAngle = (fPlayerAngle - fFOV / 2.0f) + ((float)x / (float)nScreenWid) * fFOV;
-			fDistToWall = 0;
-
-		}
-	}
+	map.map = m;
+	map.img.h = 6;
+	map.img.w = 6;
+	map.key.la = 0;
+	map.key.ra = 0;
+	map.key.w = 0;
+	map.key.s = 0;
+	map.key.a = 0;
+	map.key.d = 0;
+	(void) av;
+	if (ac != 1)
+		print_error("Probably the number of arguments\n", NULL, NULL, NULL);
+//	parser(&map, av[1]);
+	terminal_map(m);
+	map.mlx_ptr = mlx_init();
+	map.win_ptr = mlx_new_window(map.mlx_ptr, WIN_W, WIN_H, "cub3d");
+	map.img.img = mlx_new_image(map.mlx_ptr, WIN_W, WIN_H);
+	map.addr = mlx_get_data_addr(map.img.img, &map.img.bits_per_pixel, &map.line_length,
+								 &map.img.endian);
+	if(!find_player(&map))
+		printf("no player on map!");
+	draw(&map);
+	mlx_loop_hook(map.mlx_ptr, &handle_no_event, (void *)&map);
+	mlx_hook(map.win_ptr, 2, 1L << 0, &keydown, (void *)&map);
+	mlx_hook(map.win_ptr, 3, 1L << 1, &keyup, (void *)&map);
+	// mlx_hook(mlx_win, 17, 0, ft_exit_x_button, map);
+	mlx_loop(map.mlx_ptr);
+	return 0;
 }
