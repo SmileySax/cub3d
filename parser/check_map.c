@@ -103,7 +103,7 @@ static void	check_start_param(char *line)
 		print_error("Incorrectly submitted information: \"", line, "\".\n", NULL);
 }
 
-void	check_map_info(char **split_file, int fd)
+void	check_map_info(char **split_file)
 {
 	int	i;
 

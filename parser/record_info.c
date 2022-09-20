@@ -61,7 +61,6 @@ static void	recording_color(char *line, int	*color)
 {
 	int		i;
 	int		j;
-	int		tmp_d;
 	char	**tmp_split;
 	char	*tmp_substr;
 
@@ -83,7 +82,7 @@ static void	recording_color(char *line, int	*color)
 	writing_colors_to_an_array(&tmp_split, color, &tmp_substr);
 }
 
-void	recording_file_information(char **split_file, t_cub *cub)
+void	record_file_info(char **split_file, t_data *map)
 {
 	int	i;
 	int	j;
@@ -95,17 +94,17 @@ void	recording_file_information(char **split_file, t_cub *cub)
 		while (ft_isspace(split_file[i][j]))
 			j++;
 		if (!(ft_strncmp(&split_file[i][j], "NO", 2)))
-			recording_textures(&split_file[i][j], &cub->textur.north, 0);
+			recording_textures(&split_file[i][j], &map->texture.north, 0);
 		else if (!(ft_strncmp(&split_file[i][j], "SO", 2)))
-			recording_textures(&split_file[i][j], &cub->textur.south, 0);
+			recording_textures(&split_file[i][j], &map->texture.south, 0);
 		else if (!(ft_strncmp(&split_file[i][j], "WE", 2)))
-			recording_textures(&split_file[i][j], &cub->textur.west, 0);
+			recording_textures(&split_file[i][j], &map->texture.west, 0);
 		else if (!(ft_strncmp(&split_file[i][j], "EA", 2)))
-			recording_textures(&split_file[i][j], &cub->textur.east, 0);
+			recording_textures(&split_file[i][j], &map->texture.east, 0);
 		else if (!(ft_strncmp(&split_file[i][j], "F", 1)))
-			recording_color(&split_file[i][j], cub->textur.color_floor);
+			recording_color(&split_file[i][j], map->texture.floor);
 		else if (!(ft_strncmp(&split_file[i][j], "C", 1)))
-			recording_color(&split_file[i][j], cub->textur.color_ceiling);
+			recording_color(&split_file[i][j], map->texture.ceiling);
 		i++;
 	}
 }

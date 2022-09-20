@@ -375,11 +375,32 @@ int	find_player(t_data *map)
 	int i = 0;
 	int j = 0;
 
-	while (i < 6)
+	while (i < map->img.h)
 	{
-		while (j < 6)
+		while (j < map->img.w)
 		{
-			if (map->map[i * 6 + j] == 'X')
+			if (map->map[i * map->img.w + j] == 'S')
+			{
+				map->fpx = (float)j + 0.5f;
+				map->fpy = (float)i + 0.5f;
+				map->fpa = 0.0f;
+				return (1);
+			}
+			if (map->map[i * map->img.w + j] == 'E')
+			{
+				map->fpx = (float)j + 0.5f;
+				map->fpy = (float)i + 0.5f;
+				map->fpa = 0.0f;
+				return (1);
+			}
+			if (map->map[i * map->img.w + j] == 'N')
+			{
+				map->fpx = (float)j + 0.5f;
+				map->fpy = (float)i + 0.5f;
+				map->fpa = 0.0f;
+				return (1);
+			}
+			if (map->map[i * map->img.w + j] == 'W')
 			{
 				map->fpx = (float)j + 0.5f;
 				map->fpy = (float)i + 0.5f;
@@ -426,29 +447,6 @@ void	my_player_put(t_data *map)
 		i = 9;
 		while (i++ < 20)
 			my_mlx_pixel_put(map, pos[1] + (i/10.0f) * pos[0] * cos(map->fpa), pos[2] + (i/10.0f) * pos[0] * sin(map->fpa), PLAYER_COLOR);
-	}
-}
-
-void	terminal_map(char *map)
-{
-	int i = 0;
-	int j = 0;
-
-	while (i < 6)
-	{
-		while (j < 6)
-		{
-			if (map[i * 6 + j] == '1')
-				printf("[]");
-			else if (map[i * 6 + j] == 'X')
-				printf("><");
-			else
-				printf("  ");
-			j++;
-		}
-		j = 0;
-		i++;
-		printf("\n");
 	}
 }
 

@@ -1,7 +1,7 @@
-NO ./assets/NO2.xpm
-SO ./assets/SO2.xpm
-WE ./assets/WE2.xpm
-EA ./assets/EA2.xpm
+NO ./assets/NO2
+SO ./assets/SO2
+WE ./assets/WE2
+EA ./assets/EA2
 
 F 0,0,0
 C 190,130,0

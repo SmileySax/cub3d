@@ -76,8 +76,8 @@ typedef struct s_texture
 	char	*south;
 	char	*west;
 	char	*east;
-	int		ceiling[4];
-	int		floor[4];
+	int		ceiling[3];
+	int		floor[3];
 }	t_texture;
 
 typedef struct s_data
@@ -87,6 +87,7 @@ typedef struct s_data
 	char		*win_ptr;
 	int			line_length;
 	int			endian;
+	char		**map_buf;
 	char		*map;
 	float		fpx;
 	float		fpy;
@@ -106,15 +107,20 @@ int			create_trgb(int t, int r, int g, int b);
 
 //Raycasting
 int			find_player(t_data *map);
-void		terminal_map(char *map);
+//void		terminal_map(char *map);
 //Parser
 void		parser(t_data *map, char *file);
+void		check_file(char *file);
+void		check_map_info(char **split_file);
+void		record_file_info(char **split_file, t_data *map);
+void		reading_a_file(char ***split_file, int fd, char *file);
+void		map_size(t_data *map);
+void		error_read(int rd);
 //Utils
 int			keyup(int key, t_data *map);
 int			keydown(int key, t_data *map);
 int			handle_no_event(void *map);
 void		free_matrix(char **str);
 void		print_error(char *s1, char *s2, char *s3, char *s4);
-
 
 #endif

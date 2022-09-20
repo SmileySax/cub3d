@@ -83,6 +83,7 @@ static void	overwriting_the_map(char ***map, char **map_file)
 	int		len_map;
 	int		i;
 
+	len_map = 0;
 	while (map_file[len_map])
 		len_map++;
 	i = 0;
@@ -106,16 +107,17 @@ void	parser(t_data *map, char *file)
 
 	i = 0;
 	split_file = NULL;
-	checking_the_extension(file);
+	check_file(file);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		print_error("The file does not open: ", file, "\n", NULL);
 	reading_a_file(&split_file, fd, file);
-	checking_card_information(split_file, fd);
-	recording_file_information(split_file, data);
+	check_map_info(split_file);
+	record_file_info(split_file, map);
 	recording_map(split_file + 6);
-	overwriting_the_map(&map->map, split_file + 6);
-	map_valid(map->map);
-	ft_free_matrix(split_file);
+	overwriting_the_map(&map->map_buf, split_file + 6);
+	map_valid(map->map_buf);
+	map_size(map);
+	free_matrix(split_file);
 	close(fd);
 }
